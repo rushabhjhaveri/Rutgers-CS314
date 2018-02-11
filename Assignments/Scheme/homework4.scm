@@ -21,4 +21,27 @@
         (if (zero? i)
             (cons x (echo-lots (cdr lst) n))
             (cons x (loop (- i 1) x))))))
-                               
+
+;;; Define the function (echo-all lst) which is a deep version of echo.
+;;; (echo-all '(a (b c))) should return (a a (b b c c)(b b c c)).
+(define (echo-all lst)
+  (cond((null? lst) '())
+       ((not(pair?(car lst)))
+        (cons (car lst)
+              (cons (car lst)
+                    (echo-all(cdr lst)))))
+       (else (cons (echo-all(car lst))
+                   (echo-all (cdr lst))))))
+
+
+;;; Define the function nth. (nth i lst) returns the ith element of lst.
+;;; E.g., (nth 0 '(a b c)) returns a, and (nth 1 '(a (b c) d) returns (b c).
+;;; You may assume that 0 ≤ i < (length lst).
+;;; You may not use the functions list-tail or list-ref in defining nth.
+(define (nth i lst)
+  (cond((null? lst) "Empty List.")
+       ((or(> i (length lst)) (< i 0)) ("Index Error"))
+       ((= i 0) (car lst))
+       (else(nth (- i 1) (cdr lst)))))
+       
+                          
