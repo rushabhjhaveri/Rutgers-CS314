@@ -3,13 +3,9 @@
 ;;; NetID rrj28
 ;;; RUID 171008850
 
-(define echo
-  (lambda (l)
-    (cond ((null? l) '())
-          ((not (pair? (car l)))
-           (cons (car l)
-                 (cons (car l)
-                       (echo (cdr l)))))
-          (else (cons (echo (car l))
-                      (echo (cdr l)))))))
+(define (echo lst) ;Top level definition
+  (if (null? lst) ;Base case - return empty list
+      '()
+      (append (list (car lst) (car lst))
+              (echo (cdr lst)))))
                                
