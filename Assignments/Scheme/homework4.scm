@@ -24,14 +24,7 @@
 
 ;;; Define the function (echo-all lst) which is a deep version of echo.
 ;;; (echo-all '(a (b c))) should return (a a (b b c c)(b b c c)).
-(define (echo-all lst)
-  (cond((null? lst) '())
-       ((not(pair?(car lst)))
-        (cons (car lst)
-              (cons (car lst)
-                    (echo-all(cdr lst)))))
-       (else (cons (echo-all(car lst))
-                   (echo-all (cdr lst))))))
+(define (echo-all lst) (if (null? lst) '() (if (not (list? (car lst))) (cons (car lst) (cons (car lst) (echo-all (cdr lst) ) ) ) (cons (echo (car lst)) (cons (echo (car lst)) (echo-all (cdr lst))) ) ) ))
 
 
 ;;; Define the function nth. (nth i lst) returns the ith element of lst.
@@ -64,8 +57,9 @@
 ;;; (The function even? is a built-in function
 ;;; in scheme which returns #t if its argument is even and #f if odd.)
 (define (filter fn lst)
-  (cond ((null? (cdr lst)) '())
-        (cons
-         (fn (car lst) (car (cdr lst)))
-         (filter fn (cdr lst)))))
+  (if (null? lst) '()
+      (if (fn (car lst))
+          (cons (car lst)
+                (filter fn (cdr lst) ) )
+          (filter fn (cdr lst) ) ) ))
                           
