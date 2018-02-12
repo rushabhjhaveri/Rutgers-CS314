@@ -43,5 +43,17 @@
        ((or(> i (length lst)) (< i 0)) ("Index Error"))
        ((= i 0) (car lst))
        (else(nth (- i 1) (cdr lst)))))
+
+;;; Define a scheme function (assoc-all keys a-list) where keys is a list of symbols and
+;;; a-list is an assoc-list. (An assoc-list is a list ((<key1> <value1>)(<key2> <value2>) ...)
+;;; whose elements are two-element lists (<keyi> <valuei>),  whose first element is a key and
+;;; whose second element is the associated value.) assoc-all returns a list of the data
+;;; associated with elements of keys by a-list.
+;;; E.g. (assoc-all '(a d c d) '((a apple)(b boy)(c (cat cow))(d dog)))
+;;; returns (apple dog (cat cow) dog). Use map. Note that you can't simply use assoc as
+;;; one of the arguments to map; you need to use a lambda expression.
+(define (assoc-all keys a-list)
+  (map (lambda (key) (cadr (assoc key a-list))) ; Iterate over keys list and use assoc to retrieve the first matching element in a-list
+       keys))
        
                           
