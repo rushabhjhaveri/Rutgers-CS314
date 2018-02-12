@@ -55,5 +55,17 @@
 (define (assoc-all keys a-list)
   (map (lambda (key) (cadr (assoc key a-list))) ; Iterate over keys list and use assoc to retrieve the first matching element in a-list
        keys))
-       
+
+;;; Define a scheme function filter which takes two arguments:
+;;; a function fn and a list lst.
+;;; Filter should return a list consisting of those elements of lst for which
+;;; the fn returns true.
+;;; E.g., the value of (filter even? '(3 4 6 7 8)) should be (4 6 8))
+;;; (The function even? is a built-in function
+;;; in scheme which returns #t if its argument is even and #f if odd.)
+(define (filter fn lst)
+  (cond ((null? (cdr lst)) '())
+        (cons
+         (fn (car lst) (car (cdr lst)))
+         (filter fn (cdr lst)))))
                           
