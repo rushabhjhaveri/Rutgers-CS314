@@ -45,9 +45,12 @@
 ;;; E.g. (assoc-all '(a d c d) '((a apple)(b boy)(c (cat cow))(d dog)))
 ;;; returns (apple dog (cat cow) dog). Use map. Note that you can't simply use assoc as
 ;;; one of the arguments to map; you need to use a lambda expression.
-(define (assoc-all keys a-list)
-  (map (lambda (key) (cadr (assoc key a-list))) ; Iterate over keys list and use assoc to retrieve the first matching element in a-list
-       keys))
+(define assoc-all
+  (lambda (keys a-list)
+    (if(null? keys) '()
+       (map (lambda (keys)
+              (if(not(assoc keys a-list)) '()
+                 (cadr(assoc keys a-list)))) keys))))
 
 ;;; Define a scheme function filter which takes two arguments:
 ;;; a function fn and a list lst.
