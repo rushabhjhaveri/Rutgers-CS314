@@ -19,8 +19,17 @@ __Expression__: An expression in scheme can be
 * a funcion application
 
 __Function Application__
-* written as a list
-* parens around the list; white space separates elements
-* first element in the list specifies a function
-* the remaining elements specify the arguments
+* written as a list.
+* parens around the list; white space separates elements.
+* first element in the list specifies a function.
+* the remaining elements specify the arguments.
+
+__To evaluate a function application__
+* Evaluate the first element.
+* Evaluate the remaining elements.
+* Apply the value of the first to the values of the rest.
+
+This is like the mathematical concept of a function.
+
+Function applications can be nested.
 
