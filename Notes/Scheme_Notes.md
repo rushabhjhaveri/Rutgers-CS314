@@ -33,3 +33,17 @@ This is like the mathematical concept of a function.
 
 Function applications can be nested.
 
+__Function Abstraction__
+
+New functions are defined by a process called function abstraction.
+
+* First, write an expression.
+* Then, wrap it in a lambda form.
+* This value of this lambda expression is a function with a formal parameter, and a body.
+* You can use this expression-whose-value-is-a function just like you can use a variable-whose-value-is-a-function
+
+__#t__ represents true.
+__#f__ represents false.
+
+__cond__
+
