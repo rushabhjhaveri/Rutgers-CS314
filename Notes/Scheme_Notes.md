@@ -47,3 +47,23 @@ __#f__ represents false.
 
 ## cond ##
 
+Syntax: 
+```
+(cond (test1   
+        (action 1))  
+      (test2  
+        (action2))  
+      (test3  
+        (action3))  
+      (else  
+        (action4)))  
+```
+
+Each test-action pair is enclosed in parentheses.
+
+The __cond__ construct is akin to a sequence of __if__ tests.
+
+In this example, test1 is just a variable reference, not a procedure call, i.e., we're testing to see if the value of the variable test1 is #f. 
+
+If not, execute (action1), i.e., call the procedure action1. If it is false, control "falls through" to the next test, and keeps going until one of the tests evaluates to a true value (anything but #f).  
+
