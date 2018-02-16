@@ -67,3 +67,9 @@ In this example, test1 is just a variable reference, not a procedure call, i.e.,
 
 If not, execute (action1), i.e., call the procedure action1. If it is false, control "falls through" to the next test, and keeps going until one of the tests evaluates to a true value (anything but #f).  
 
+The actions corrosponding to a test are indented by one character. This lines the action up directly below the tests, rather than under the opening parentheses that group them together.
+
+The __else__ clause of a cond is __optional__. If present, that branch is taken as the "default". If none of the other conditions evaluate to a true value, the __else__ branch is taken.
+
+The __else__ clause is not really required, because we the same effect could be achieved by using a test expression that always evaluates to a true value. One way of doing this is to use the literal __#t__, the true boolean, because it's always true.
+
