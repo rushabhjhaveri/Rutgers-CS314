@@ -73,3 +73,11 @@ The __else__ clause of a cond is __optional__. If present, that branch is taken 
 
 The __else__ clause is not really required, because we the same effect could be achieved by using a test expression that always evaluates to a true value. One way of doing this is to use the literal __#t__, the true boolean, because it's always true.
 
+## not ##
+```
+not(v) --> boolean
+```
+
+Returns __#t__ if v is __#f__, and vice-versa
+
+## or ##
