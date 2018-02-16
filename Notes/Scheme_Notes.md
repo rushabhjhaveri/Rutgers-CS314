@@ -45,5 +45,5 @@ New functions are defined by a process called function abstraction.
 __#t__ represents true.
 __#f__ represents false.
 
-__cond__
+## cond ##
 
