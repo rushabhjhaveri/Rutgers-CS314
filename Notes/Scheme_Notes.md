@@ -136,5 +136,16 @@ The more traditional name for the cons? function is pair?
 
 ## car ##
 
-
+car -> *Contents of Address Part of Register*
    
+Returns the first element of a list.
+
+Note: car does not modify the original list; it just returns the first element of the list.
+
+Syntax:
+
+```
+(car(lst))
+```
+
+## cdr ##
