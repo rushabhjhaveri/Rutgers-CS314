@@ -116,3 +116,25 @@ Can have lists of lists, nested lists, et al.
 ## cons ##
 Primitive procedure, means "construct".
 
+cons takes two arguments [two lists / elements], and returns a list constructed from those two arguments.
+
+Provides a means of combination for Scheme.
+
+The two values joined with __cons__ are printed within parentheses, but with a dot printed in between them. 
+
+```
+  > (cons 1 2)
+  (1 . 2)
+
+  > (cons "banana" "split")
+  ("banana" . "split")
+  ```
+  
+The value returned by __cons__ is not *always* a list. In general, the result of __cons__ is a *pair*. 
+  
+The more traditional name for the cons? function is pair? 
+
+## car ##
+
+
+   
