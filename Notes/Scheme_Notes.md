@@ -81,3 +81,13 @@ not(v) --> boolean
 Returns __#t__ if v is __#f__, and vice-versa
 
 ## or ##
+Syntax
+```
+(or expr1 expr2 ... expr-n)   
+```
+
+return true if at least one of the expr's is true
+... or more precisely, return expr-j if expr-j is the first expr that
+evaluates to something other than #f.  Otherwise return #f.
+
+## and ##
