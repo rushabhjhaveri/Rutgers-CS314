@@ -114,3 +114,5 @@ Internal representation: a singly linked-list.
 Can have lists of lists, nested lists, et al.
 
 ## cons ##
+Primitive procedure, means "construct".
+
