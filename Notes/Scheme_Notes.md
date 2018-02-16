@@ -91,3 +91,16 @@ return true if at least one of the expr's is true
 evaluates to something other than #f.  Otherwise return #f.
 
 ## and ##
+Syntax
+
+(and <expression 1> ... <expression n>)
+
+Expressions evaluated from left to right. 
+
+The value of the first expression that returns false is returned. Any and all remaining expressions are not evaluated.
+
+If all the expressions evaluate to __#t__ (true), then the value of the last expression is returned.
+
+If there are no expressions, then __#t__ is returned.
+
+## Lists ##
