@@ -92,9 +92,9 @@ evaluates to something other than #f.  Otherwise return #f.
 
 ## and ##
 Syntax
-
+```
 (and <expression 1> ... <expression n>)
-
+```
 Expressions evaluated from left to right. 
 
 The value of the first expression that returns false is returned. Any and all remaining expressions are not evaluated.
@@ -104,3 +104,13 @@ If all the expressions evaluate to __#t__ (true), then the value of the last exp
 If there are no expressions, then __#t__ is returned.
 
 ## Lists ##
+
+Elements enclosed within parentheses, each element separated by a whitespace.
+
+External representation: (1 2 3 (4 5) 6) etc.
+
+Internal representation: a singly linked-list.
+
+Can have lists of lists, nested lists, et al.
+
+## cons ##
