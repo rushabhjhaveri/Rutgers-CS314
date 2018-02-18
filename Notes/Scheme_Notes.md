@@ -185,3 +185,29 @@ __A Few Examples__
 * (cdddr ‘((a) b (c d))) => ( )
 * (cddddr ‘((a) b (c d))) => *error*
 
+## quote ##
+
+Syntax:
+
+```
+(quote datum)
+```
+
+__datum__ can be a symbol, boolean, number, string [character / byte], character, keyword, empty list, a pair, list, vector, hash table, etc.
+
+__quote__ does not evaluate the argument passed; it just returns the argument and prints it on the console.
+
+__Important Note__
+
+```
+'datum
+```
+is shorthand for 
+
+```
+(quote datum)
+```
+
+and this shorthand is almost always used instead of __quote__.
+
+## lambda ##
