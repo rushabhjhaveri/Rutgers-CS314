@@ -149,3 +149,39 @@ Syntax:
 ```
 
 ## cdr ##
+Syntax:
+
+```
+(cdr(lst))
+```
+cdr -> *Contents of Decrement Part of Register*
+
+Returns a sublist consisting of all the elements of the original list, except the first.
+
+## cadr ##
+
+Nested application of __car__ and __cdr__.
+
+```
+(car (cdr (lst)))
+```
+The __cdr__ is evaluated first, returning a sublist containing all the elements except the first.
+Then, __car__ is evaluated, returning the first element of the sublist, i.e., the second element of the original list.
+
+Thus, __cadr__ returns the second item in a list.
+
+__Similarly,__
+
+* (cdadr x) means (cdr (car (cdr x)))
+* (cdadr '(a (b c d) e)) => (c d)
+* (cadadr x) means (car (cdr (car (cdr x)))) [But if you use it you are probably doing something wrong]
+* (cdadadr x) is not defined
+
+__A Few Examples__
+
+* (cdr ‘((a) b (c d))) => (b (c d))
+* (cadr ‘((a) b (c d))) => b
+* (cddr ‘((a) b (c d))) => ((c d))
+* (cdddr ‘((a) b (c d))) => ( )
+* (cddddr ‘((a) b (c d))) => *error*
+
