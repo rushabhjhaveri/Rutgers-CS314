@@ -211,3 +211,38 @@ is shorthand for
 and this shorthand is almost always used instead of __quote__.
 
 ## lambda ##
+
+A lambda expression creates [and returns] a function.
+
+Syntax
+
+```
+(lambda (arg-id ...)
+  body ...)
+```
+
+## define ##
+
+Syntax
+
+```
+(define id expr)
+
+(define (head args) body ...+)
+```
+
+The first form binds id to the result of expr.
+
+The second form binds id to a procedure.
+
+Values used for variables when not bound ("top level" values).
+
+## Dynamic Typing ##
+
+* Variables and fields don't have types; only values have types.
+* A value is represented by a data structure with
+  * a type code
+  * a value
+* Depending on the type, the value is either:
+  * immediate data [e.g., integer]
+  * a pointer to actual data on the heap [e.g., a pair]
