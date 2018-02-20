@@ -305,3 +305,43 @@ These procedures find the first pair in alist whose car field is object, and ret
 The returned pair is always an element of alist, not one of the pairs from which alist is composed.  
 If no pair in alist has object as its car, #f (n.b.: not the empty list) is returned. assq uses eq? to compare object with the car fields of the pairs in alist, while assv uses eqv? and assoc uses equal?.  
 
+## let ##
+Syntax:
+
+```
+(let ([id val-expr] ...) body ...+)
+
+(let proc-id ([id init-expr] ...) body ...+)
+```
+The first form evaluates the val-exprs left-to-right, creates a new location for each id, and places the values into the locations.  
+It then evaluates the bodys, in which the ids are bound. 
+The last body expression is in tail position with respect to the let form. 
+The ids must be distinct according to bound-identifier=?.  
+
+The second form evaluates the init-exprs; 
+the resulting values become arguments in an application of a procedure (lambda (id ...) body ...+), 
+where proc-id is bound within the bodys to the procedure itself.  
+
+## let * ##
+Syntax 
+```
+(let* ([id val-expr] ...) body ...+)
+```
+Like let, but evaluates the val-exprs one by one, creating a location for each id as soon as the value is available. 
+The ids are bound in the remaining val-exprs as well as the bodys, and the ids need not be distinct; later bindings shadow earlier bindings. 
+
+## letrec ##
+
+Syntax:
+```
+(letrec ([id val-expr] ...) body ...+)
+```
+
+Like let, including left-to-right evaluation of the val-exprs, but the locations for all ids are created first, 
+all ids are bound in all val-exprs as well as the bodys, and each id is initialized immediately after the corresponding val-expr is evaluated. 
+The ids must be distinct according to bound-identifier=?.  
+
+__Note__: Referencing or assigning to an id before its initialization raises exn:fail:contract:variable. 
+          If an id (i.e., the binding instance or id) has an 'undefined-error-name syntax property whose value is a symbol, 
+          the symbol is used as the name of the variable for error reporting, instead of the symbolic form of id.  
+
