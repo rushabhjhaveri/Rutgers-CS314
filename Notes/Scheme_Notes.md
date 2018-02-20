@@ -266,4 +266,20 @@ If the test expression evaluates to true, then-expr is evaluated. Otherwise, els
 
 * Used to check whether its two parameters represent the same object in memory.
 * Note however that there's only one empty list '() in memory (actually the empty list doesn't exist in memory, but a pointer to the       memory location 0 is considered as the empty list). Hence when comparing empty lists eq? will always return #t (because they represent   the same object in memory)
-* 
+* Depending on the implementation, __eq?__ may or may not return __#t__ for primitive values such as numbers, strings, etc.  
+
+### eqv? Equivalence Predicate ###
+
+* Exactly same as the __eq?__ predicate, except that it will always return __#t__ for same primitive values. 
+* Hence, __eqv?__ is a superset of __eq?__ and for most cases __eqv?__ should be used instead of __eq?__. 
+
+### equal? Equivalence Predicate ###
+* Exactly same as the __eqv?__ predicate, except that it can be used to test whether two lists, vectors, etc. have corrosponding elements which satisfy the __eqv?__ predicate. 
+
+
+__In general__
+1. Use the __=__ predicate when you wish to test whether two numbers are equivalent. 
+2. Use the __eqv?__ predicate when you wish to test whether two non-numeric values are equivalent.  
+3. Use the __equal?__ predicate when you wish to test whether two lists, vectors, etc. are equivalent.  
+4. Don't use the __eq?__ predicate unless you know exactly what you're doing.  
+
