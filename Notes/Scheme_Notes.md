@@ -283,3 +283,25 @@ __In general__
 3. Use the __equal?__ predicate when you wish to test whether two lists, vectors, etc. are equivalent.  
 4. Don't use the __eq?__ predicate unless you know exactly what you're doing.  
 
+## member ##
+* Built into Scheme.
+* __(member x list)__ evaluates to the part of the list which begins with the first occurrence of x, and evaluates to #f if x is not a member of list.  
+
+## assoc ## 
+* An *association list*, or *alist*, is a data structure used very frequently in Scheme. 
+* An alist is a list of pairs, each of which is called an *association*. 
+* The car of an association is called the *key*.  
+* An advantage of the alist representation is that an alist can be incrementally augmented simply by adding new entries to the front.  
+* If an alist is viewed as a mapping from keys to data, then the mapping can be not only augmented but also altered in a non-destructive   manner by adding new entries to the front of the alist.  
+
+procedure: __alist? object__ : Returns #t if object is an association list (including the empty list); otherwise returns #f. Any object satisfying this predicate also satisfies list?. 
+
+procedure: 
+* __assq object alist  
+* assv object alist  
+* assoc object alist__
+
+These procedures find the first pair in alist whose car field is object, and return that pair.  
+The returned pair is always an element of alist, not one of the pairs from which alist is composed.  
+If no pair in alist has object as its car, #f (n.b.: not the empty list) is returned. assq uses eq? to compare object with the car fields of the pairs in alist, while assv uses eqv? and assoc uses equal?.  
+
