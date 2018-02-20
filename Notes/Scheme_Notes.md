@@ -255,4 +255,15 @@ Syntax
 ```
 If the test expression evaluates to true, then-expr is evaluated. Otherwise, else-expr is evaluated.
 
+## Predicates ##
 
+### = Equivalence Predicate ###
+
+* Used to check whether two numbers are equal.
+* If supplied with anything else but a number, it will raise an error.
+
+### eq? Equivalence Predicate ###
+
+* Used to check whether its two parameters represent the same object in memory.
+* Note however that there's only one empty list '() in memory (actually the empty list doesn't exist in memory, but a pointer to the       memory location 0 is considered as the empty list). Hence when comparing empty lists eq? will always return #t (because they represent   the same object in memory)
+* 
