@@ -246,3 +246,13 @@ Values used for variables when not bound ("top level" values).
 * Depending on the type, the value is either:
   * immediate data [e.g., integer]
   * a pointer to actual data on the heap [e.g., a pair]
+  
+## if ##
+Syntax
+
+```
+(if test-expr then-expr else-expr)
+```
+If the test expression evaluates to true, then-expr is evaluated. Otherwise, else-expr is evaluated.
+
+
