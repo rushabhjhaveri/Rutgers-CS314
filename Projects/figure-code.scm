@@ -69,7 +69,11 @@
 ;;; "bad", i.e. out of range, argument to func here will not necessarily
 ;;; crash scheme the way (car '( )) would.
 (define (add-check func numrows numcols)
-  ' ( ) ;; replace this line
+  (lambda (row col)
+    (if (range-check row numrows col numcols)
+        (func row col) ; If the condition evaluates to true, it returns the result of (func row col)
+        (#\.)) ; If the condition evaluates to false, it returns #\.
+    )
 )
  
 ;;; display-window prints out the characters that make up a rectangular segment of the figure
