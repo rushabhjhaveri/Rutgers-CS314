@@ -128,14 +128,16 @@
 ;;; right of figurea the number of rows in the resulting figure is the
 ;;; smaller of the number of rows in figurea and figureb
 (define (append-cols figurea figureb)
+  ; make-figure makes the appropriate figure [a / b] based on the appropriate conditions being fulfilled. 
   (make-figure (if(> (figure-numrows figurea) (figure-numrows figureb)) ; If the # of rows in figure a > # of rows in figure b
                      (figure-numrows figureb) ; Return figure b [the one with less # of rows].
                      (figure-numrows figurea)) ; Else, return figure a.
                (+ (figure-numcols figurea)(figure-numcols figureb)) ; Add # of cols of both figures to get total # of cols
                (lambda (row col)
-                 (if(< col (figure-numcols figurea))
-                    ((figure-func figurea) row col)
-                    ((figure-func figureb) row (- col (figure-numcols figurea)))
+                 (if(< col (figure-numcols figurea)) ; If the current col is < the # of cols in figure a
+                    ((figure-func figurea) row col) ; Compute figure a closure at specified row / col
+                    ((figure-func figureb) row (- col (figure-numcols figurea))) ; Figure a completed, append
+                    ; figure b by computing its closure at specified row / col.
                     )))
   )
 
