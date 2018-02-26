@@ -1,6 +1,4 @@
 ;;;; This file is project 1 for CS 314 for Spring 2018, taught by Prof. Steinberg
-
-
 ;;;; The assignment is to fill in the definitions below, adding your code where ever
 ;;;; you see the comment 
      ;;  replace this line
@@ -145,7 +143,16 @@
 ;;; the number of columns in the resulting figure is the smaller of the number of columns in figurea
 ;;; and figternb
 (define (append-rows figurea figureb)
-  '( );; replace this line
+    (make-figure (if(> (figure-numcols figurea) (figure-numcols figureb)) ; If the # of rows in figure a > # of rows in figure b
+                     (figure-nucols figureb) ; Return figure b [the one with less # of rows].
+                     (figure-cols figurea)) ; Else, return figure a.
+               (+ (figure-numrows figurea)(figure-numrows figureb)) ; Add # of cols of both figures to get total # of cols
+               (lambda (row col)
+                 (if(< row (figure-numrows figurea)) ; If the current col is < the # of cols in figure a
+                    ((figure-func figurea) row col) ; Compute figure a closure at specified row / col
+                    ((figure-func figureb) (- row (figure-numrows figurea)) col) ; Figure a completed, append
+                    ; figure b by computing its closure at specified row / col.
+                    )))
   )
 
 ;;; flip-cols returns a figure that is the left-right mirror image of figure
