@@ -70,7 +70,7 @@
   (lambda (row col)
     (if (range-check row numrows col numcols)
         (func row col) ; If the condition evaluates to true, it returns the result of (func row col)
-        (#\.)) ; If the condition evaluates to false, it returns #\.
+        #\.) ; If the condition evaluates to false, it returns #\.
     )
 )
  
@@ -169,8 +169,8 @@
 
 ;;;; some examples thst should work after just add-check is filled in
 ;;;; above.  (Remove the ;'s at the start of the lines below.)
-;(define fig1 (sw-corner 4))
-;(display-window 0 3 0 3 fig1)
-;(define fig2 (repeat-cols 3 fig1))
-;(display-window 0 4
-;                0 12 fig2)
+(define fig1 (sw-corner 4))
+(display-window 0 3 0 3 fig1)
+(define fig2 (repeat-cols 3 fig1))
+(display-window 0 4
+                0 12 fig2)
