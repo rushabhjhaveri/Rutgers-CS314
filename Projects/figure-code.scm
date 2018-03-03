@@ -119,7 +119,11 @@
 ;;; repeat-rows returns a figure made up of nrepeat copies
 ;;; of a figure, appended vertically (above and below each other)
 (define (repeat-rows nrepeat figure)
-  ' ( ) ;; replace this line
+  (make-figure (lambda (row col)
+                 ((figure-func figure) (modulo row (figure-numrows figure)) col))
+               (figure-numcols figure)
+               (* nrepeat (figure-numrows figure))
+               )
   )
 
 ;;; append cols returns the figure made by appending figureb to the
