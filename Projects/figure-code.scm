@@ -1,7 +1,7 @@
 ;;;; This file is project 1 for CS 314 for Spring 2018, taught by Prof. Steinberg
 ;;;; The assignment is to fill in the definitions below, adding your code where ever
 ;;;; you see the comment 
-     ;;  replace this line
+;;  replace this line
 ;;;; to make each function do what its comments say it should do.  You
 ;;;; may replace such a line with as many lines as you want to.  You may
 ;;;; also add your own functions, as long as each function has a
@@ -33,7 +33,7 @@
 ;;; The following are functions to create and access a figure. Note that
 ;;; make-figure adds bounds checking to func
 (define (make-figure func numrows numcols)
-    (list (add-check func numrows numcols) numrows numcols))
+  (list (add-check func numrows numcols) numrows numcols))
 (define (figure-func figure) (car figure))
 (define (figure-numrows figure)(cadr figure))
 (define (figure-numcols figure)(caddr figure))
@@ -72,25 +72,25 @@
         (func row col) ; If the condition evaluates to true, it returns the result of (func row col)
         #\.) ; If the condition evaluates to false, it returns #\.
     )
-)
+  )
  
 ;;; display-window prints out the characters that make up a rectangular segment of the figure
 ;;;    startrow and endrow are the first and last rows to print, similarly for startcol and endcol
 ;;; The last thing display-window does is to call (newline) to print a blank line under the figure.
 (define (display-window start-row stop-row start-col stop-col figure)
   (forn start-row stop-row 
-         (lambda (r)
-           (forn start-col stop-col 
-                  (lambda (c)
-                    (display ((figure-func figure) r c))))
-           (newline)))
+        (lambda (r)
+          (forn start-col stop-col 
+                (lambda (c)
+                  (display ((figure-func figure) r c))))
+          (newline)))
   (newline))
 
 ;;; charfig take one argument, a character, and returns a 1-row, 1-column figure consisting of that character
 (define (charfig char)
   (make-figure (lambda (row col)
-		  char)
-		1 1))
+                 char)
+               1 1))
 
 ;;; sw-corner returns a figure that is a size x size square, in which
 ;;; the top-left to bottom-right diagonal and everything under it is
@@ -98,23 +98,23 @@
 ;;; character
 (define (sw-corner size)
   (make-figure (lambda (row col)
-                  (if (>= row col)
-                      #\*
-                      #\space))
-		size
-                size))
+                 (if (>= row col)
+                     #\*
+                     #\space))
+               size
+               size))
 
 
 ;;; repeat-cols returns a figure made up of nrepeat copies of
 ;;; figure, appended horizontally (left and right of each other)
 (define (repeat-cols nrepeat figure)
   (make-figure (lambda (row col)
-		  ((figure-func figure) row (modulo col (figure-numcols figure))))
-		(figure-numrows figure) 
-                (* nrepeat (figure-numcols figure)) 
-                ;; the function just calls the function that repeat-cols received, but 
-                ;; uses modulo to select the right position.
-		))
+                 ((figure-func figure) row (modulo col (figure-numcols figure))))
+               (figure-numrows figure) 
+               (* nrepeat (figure-numcols figure)) 
+               ;; the function just calls the function that repeat-cols received, but 
+               ;; uses modulo to select the right position.
+               ))
 
 ;;; repeat-rows returns a figure made up of nrepeat copies
 ;;; of a figure, appended vertically (above and below each other)
@@ -130,51 +130,78 @@
 ;;; right of figurea the number of rows in the resulting figure is the
 ;;; smaller of the number of rows in figurea and figureb
 (define (append-cols figurea figureb)
-  ; make-figure makes the appropriate figure [a / b] based on the appropriate conditions being fulfilled. 
-  (make-figure (if(> (figure-numrows figurea) (figure-numrows figureb)) ; If the # of rows in figure a > # of rows in figure b
-                     (figure-numrows figureb) ; Return figure b [the one with less # of rows].
-                     (figure-numrows figurea)) ; Else, return figure a.
-               (+ (figure-numcols figurea)(figure-numcols figureb)) ; Add # of cols of both figures to get total # of cols
-               (lambda (row col)
+  (make-figure (lambda (row col)
                  (if(< col (figure-numcols figurea)) ; If the current col is < the # of cols in figure a
                     ((figure-func figurea) row col) ; Compute figure a closure at specified row / col
                     ((figure-func figureb) row (- col (figure-numcols figurea))) ; Figure a completed, append
                     ; figure b by computing its closure at specified row / col.
-                    )))
+                    ))
+               (if(> (figure-numrows figurea) (figure-numrows figureb)) ; If the # of rows in figure a > # of rows in figure b
+                  (figure-numrows figureb) ; Return figure b [the one with less # of rows].
+                  (figure-numrows figurea)) ; Else, return figure a.
+               (+ (figure-numcols figurea)(figure-numcols figureb)) ; Add # of cols of both figures to get total # of cols
+               )
   )
 
 ;;; append-rows returns the figure made by appending figureb below figurea
 ;;; the number of columns in the resulting figure is the smaller of the number of columns in figurea
-;;; and figternb
+;;; and figureb
 (define (append-rows figurea figureb)
-    (make-figure (if(> (figure-numcols figurea) (figure-numcols figureb)) ; If the # of rows in figure a > # of rows in figure b
-                     (figure-nucols figureb) ; Return figure b [the one with less # of rows].
-                     (figure-cols figurea)) ; Else, return figure a.
-               (+ (figure-numrows figurea)(figure-numrows figureb)) ; Add # of cols of both figures to get total # of cols
-               (lambda (row col)
-                 (if(< row (figure-numrows figurea)) ; If the current col is < the # of cols in figure a
+  (make-figure (lambda (row col)
+                 (if(< row (figure-numrows figurea)) ; If the current row is < the # of rows in figure a
                     ((figure-func figurea) row col) ; Compute figure a closure at specified row / col
                     ((figure-func figureb) (- row (figure-numrows figurea)) col) ; Figure a completed, append
                     ; figure b by computing its closure at specified row / col.
-                    )))
+                    ))
+               (+ (figure-numrows figurea)(figure-numrows figureb)) ; Add # of rows of both figures to get total # of cols
+               (if(> (figure-numcols figurea) (figure-numcols figureb)) ; If the # of cols in figure a > # of cols in figure b
+                  (figure-numcols figureb) ; Return figure b [the one with less # of cols].
+                  (figure-numcols figurea)) ; Else, return figure a.
+               )
   )
-
 ;;; flip-cols returns a figure that is the left-right mirror image of figure
 (define (flip-cols figure)
-  '( ) ;;replace this line
+  (make-figure(lambda (row col)
+                 ((figure-func figure) row (- (figure-numcols figure) (+ 1 col))
+               ))
+              (figure-numrows figure)
+              (figure-numcols figure))
   )
 
 ;;; flip-rows returns a figure that is the up-down mirror image of figure
 (define (flip-rows figure)
-  '( ) ;; replace this line
-
+  (make-figure (lambda (row col) ((figure-func figure)
+                                   (- (figure-numrows figure) (+ 1 row)) col))
+               (figure-numrows figure)
+               (figure-numcols figure)
+               )
   )
 
 
 ;;;; some examples thst should work after just add-check is filled in
 ;;;; above.  (Remove the ;'s at the start of the lines below.)
-(define fig1 (sw-corner 4))
-(display-window 0 3 0 3 fig1)
-(define fig2 (repeat-cols 3 fig1))
-(display-window 0 4
-                0 12 fig2)
+;(define fig1 (sw-corner 4))
+;(display "Figure 1")(newline)
+;(display-window 0 3 0 3 fig1)
+;(define fig2 (repeat-cols 3 fig1))
+;(display "Figure 2")(newline)
+;(display-window 0 4
+;                0 12 fig2)
+(define ca (charfig #\a))
+(define cb (charfig #\b))
+(define ab (append-cols ca cb))
+(define cde (append-cols (charfig #\c)
+                         (append-cols (charfig #\d)
+                                      (charfig #\e))))
+(define abcd (append-rows ab cde))
+(display-window 0 0 0 0 ca)
+(display-window 0 0 0 1 ca)
+(display-window 0 1 0 1 ca)
+(display-window 0 1 0 1 ab)
+(display-window 0 2 0 2 abcd)
+(display-window 0 1 0 2 cde)
+(display-window 0 3 0 3 (sw-corner 4))
+(display-window 0 3 0 3 (flip-rows(sw-corner 4)))
+(display-window 0 3 0 3 (flip-cols(sw-corner 4)))
+(let ((f1 (append-rows ab (flip-cols ab))))
+ (display-window 0 2 0 4 (append-cols f1 (flip-rows f1))))
