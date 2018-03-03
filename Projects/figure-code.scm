@@ -204,4 +204,4 @@
 (display-window 0 3 0 3 (flip-rows(sw-corner 4)))
 (display-window 0 3 0 3 (flip-cols(sw-corner 4)))
 (let ((f1 (append-rows ab (flip-cols ab))))
- (display-window 0 2 0 4 (append-cols f1 (flip-rows f1))))
+(display-window 0 2 0 4 (append-cols f1 (flip-rows f1))))
