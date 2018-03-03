@@ -344,4 +344,3 @@ The ids must be distinct according to bound-identifier=?.
 __Note__: Referencing or assigning to an id before its initialization raises exn:fail:contract:variable. 
           If an id (i.e., the binding instance or id) has an 'undefined-error-name syntax property whose value is a symbol, 
           the symbol is used as the name of the variable for error reporting, instead of the symbolic form of id.  
-
