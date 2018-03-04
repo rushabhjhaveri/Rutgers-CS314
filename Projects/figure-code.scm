@@ -123,6 +123,8 @@
                  ((figure-func figure) (modulo row (figure-numrows figure)) col))
                (figure-numcols figure)
                (* nrepeat (figure-numrows figure))
+               ;; repeat-rows calls the function that it [repeat-rows] received
+               ;; uses modulo to select the right position. 
                )
   )
 
@@ -161,7 +163,23 @@
   )
 ;;; flip-cols returns a figure that is the left-right mirror image of figure
 (define (flip-cols figure)
-  (make-figure(lambda (row col)
+  ; Remember - make-figure receives 3 args - <func, numrows, numcols> - IN THAT ORDER
+  ; lambda syntax : (lambda (arg-id ... ) body)
+  (make-figure(lambda (row col) ; arg-ids (row col)
+                ; body
+                ; Lambda function that returns a function.
+                ; (figure-func figure) applies the given function that defines the figure
+                ; Returns the character and the specified row and col.
+                ; We pass col as (total # of cols in figure) - (col + 1) because
+                ; e.g.
+                ;   0 1 2 3     0 1 2 3 
+                ; 0 *                 *
+                ; 1 * *             * *
+                ; 2 * * *         * * *
+                ; 3 * * * *     * * * *
+                ; since we need a left-right mirror image, character at figure[0][0]
+                ; will be replicated at figure[3][0]
+                ; and (3, 0) = (0, 4 - (0 + 1)) = (row, (numcols - (col + 1)) and so on.
                  ((figure-func figure) row (- (figure-numcols figure) (+ 1 col))
                ))
               (figure-numrows figure)
@@ -170,8 +188,30 @@
 
 ;;; flip-rows returns a figure that is the up-down mirror image of figure
 (define (flip-rows figure)
-  (make-figure (lambda (row col) ((figure-func figure)
-                                   (- (figure-numrows figure) (+ 1 row)) col))
+  ; Remember - make-figure receives 3 args - <func, numrows, numcols> - IN THAT ORDER
+  ; lambda syntax : (lambda (arg-id ... ) body)
+  (make-figure (lambda (row col) ; arg-ids (row col)
+                ; body
+                ; Lambda function that returns a function.
+                ; (figure-func figure) applies the given function that defines the figure
+                ; Returns the character and the specified row and col.
+                ; We pass row as (total # of rows in figure) - (row + 1) because
+                ; e.g.
+                ;   0 1 2 3
+                ; 0 *
+                ; 1 * * 
+                ; 2 * * *
+                ; 3 * * * *
+                ;  
+                ;   0 1 2 3 
+                ; 0 * * * *
+                ; 1 * * *
+                ; 2 * *
+                ; 3 *
+                ; since we need an up-down mirror image, character at figure[0][0]
+                ; will be replicated at figure[3][0]
+                ; and (3, 0) = ((4 - (0 + 1)), 0) = ((numrows - (row + 1)), col) and so on. 
+                 ((figure-func figure) (- (figure-numrows figure) (+ 1 row)) col))
                (figure-numrows figure)
                (figure-numcols figure)
                )
@@ -187,6 +227,8 @@
 ;(display "Figure 2")(newline)
 ;(display-window 0 4
 ;                0 12 fig2)
+
+; Test cases after completing the code. 
 (define ca (charfig #\a))
 (define cb (charfig #\b))
 (define ab (append-cols ca cb))
