@@ -90,3 +90,81 @@ In particular, tail recursive functions don't use stack space for every recursiv
 
 ### Accumulator Recursion ### 
 __Using Accumulators to Make a Function Tail-Recursive__ 
+
+Sometimes, you can use an __accumulator__; an additional parameter to a function that accumulates the answer, to convert a non-tail-recursive function into a tail-recursive one.  
+
+For example, the previous definition of factorial was not tail-recursive.  
+
+Here is one that is, and makes use of an accumulator.  
+
+```
+(define (factorial n)
+  (acc-factorial n 1))
+
+
+  ;; auxiliary function that takes an additional parameter (the accumulator,
+  ;; i.e. the result computed so far)
+  (define (acc-factorial n sofar)
+    (if (zero? n)
+          sofar
+	  (acc-factorial (- n 1) (* sofar n))))
+```
+
+__Simultaneous Recursion on Several Variables__ 
+
+```
+;; test whether two lists have the same length
+
+(define (same-length x y)
+  (cond ((and (null? x) (null? y)) #t)
+          ((null? x) #f)
+	          ((null? y) #f)
+		          (else (same-length (cdr x) (cdr y)))))
+
+;; do these two objects have the same shape?
+(define (same-shape x y)
+  (cond ((and (pair? x) (pair? y))
+         (and (same-shape (car x) (car y))
+              (same-shape (cdr x) (cdr y))))
+  	((or (pair? x) (pair? y)) #f)
+	(else #t)))
+```
+
+### Conditional Augmentation ###
+
+Like augmenting recursion.  
+
+Do not necessarily augment on every step. 
+
+These functions are sometimes called *filtering* functions, because they remove elements from a list that do not pass some test.  
+
+```
+(define (func x)
+  (cond (end-test end-value)
+          (aug-test (augmenting-function augmenting-value (func reduced-x)))
+          (else (func reduced-x))))
+
+;; example:  remove all non-positive numbers from a list
+
+(define (positive-numbers x)
+  (cond ((null? x) '())
+        ((> (car x) 0) (cons (car x) (positive-numbers (cdr x))))
+        (else (positive-numbers (cdr x)))))
+```
+
+__Example: Insertion Sort__
+
+```
+;; variation on list-consing recursion
+(define (insert x s)
+   (cond ((null? s) (list x))
+         ((< x (car s)) (cons x s))
+	 (else (cons (car s) (insert x (cdr s))))))
+
+;; augmenting recursion
+(define (isort s)
+  (if (null? s) '()
+      (insert (car s) (isort (cdr s)))))
+```
+
+
