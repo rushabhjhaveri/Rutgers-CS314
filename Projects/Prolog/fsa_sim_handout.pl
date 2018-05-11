@@ -52,7 +52,7 @@
    If the state structure is a member of the list of state structures States, 
    Then state_struct will return said member with name Name.
 */
-state_struct(+ Name, + States, - state(Name, TransitionList, Accepts)) :- 
+state_struct(Name, States, state(Name, TransitionList, Accepts)) :- 
 	member(state(Name, TransitionList, Accepts), States).
 
 %%% next_state_name(+State_struct, +Characters, -Next_name, -Next_chars)
@@ -63,31 +63,45 @@ state_struct(+ Name, + States, - state(Name, TransitionList, Accepts)) :-
 %%%     remaining list of input chars
 
 /*
-   If at the current state: 
-     - have the transition list of current state
+If at the current state: 
+ - have the transition list of current state
    
-   List of input chars - divide into [Head | Tail] = [First_Character | Rest_of_the_List]
+List of input chars - divide into [Head | Tail] = [First_Character | Rest_of_the_List]
    
-   Next_chars gets bound to Rest_of_the_List 
+Next_chars gets bound to Rest_of_the_List 
 
-   Next_name becomes transition from current state to state wherein the char == First_Character
+Next_name becomes transition from current state to state wherein the char == First_Character
 
+Lets say input chars is [a,b,c] and we are in state S1.
+
+So would go through the transition list in S1 to try to find which state to go next. 
+
+If you find transition for a, then you would “return” the name of the next state and the rest of the input char [b,c] to your accept predicate. 
+
+Now, if you find an epsilon in your transition list, you would do the same thing. 
+
+You “return” the name of the next state that the epsilon goes to, but since epsilon does not consume any input, you would return the original char list [a,b,c].
 */
 
+
 % define next_state_name here
-next_state_name(+ state(_,TransitionList,_), + [FirstChar | Rest], - NextName, - Rest) :- 
+% next_state_name(state(_,[transition(epsilon, NextName) | _], _), Chars, NextName, Chars). 
+next_state_name(state(_,TransitionList,_), Chars, NextName, Chars) :- 
+	member(transition(epsilon, NextName), TransitionList).
+
+next_state_name(state(_,TransitionList,_), [FirstChar | Rest], NextName, Rest) :- 
 	member(transition(FirstChar, NextName), TransitionList).
 
 % accepts(+State_struct, +Fsa, +Chars) true if Fsa accepts character
 % string Chars when starting from the state represented by State_struct
 
 % define accepts here
-accepts(state(_,_,yes), FSA, []).
-accepts(state(Name, [FirstState | Rest], Accepts), FSA, [FirstChar | RestChars]) :- 
-	next_state_name(state(Name, [FirstState | Rest], Accepts), [FirstChar | RestChars], NextName, RestChars),
-	state_struct(NextName, FSA, NextStruct),
-	accepts(NextStruct, FSA, RestChars).
+accepts(state(_,_,yes), _, []).
 
+accepts(State_struct, FSA, Chars) :- 
+	next_state_name(State_struct, Chars, NextName, Rest),
+	state_struct(NextName, FSA, NextState),
+	accepts(NextState, FSA, Rest).
 
 %%% run(Fsa, Chars) Fsa is a list of state stuctures representing
 %%% a Fsa (so that the first state in the list is the start state of
@@ -123,5 +137,47 @@ demo2(Chars):- run([state(even,[ transition(0, even),transition(1, odd)], yes),
                state(otherb,[  ], yes)],
   	       Chars).
 
+/*
+demo3(Chars):-run([state(a, [transition(0, a), transition(1,b)], no),
+              state(b, [transition(0,c)], no),
+              state(c, [transition(0, d)], yes),
+              state(d, [transition(1,c)],no)],
+              Chars).
 
 
+demo4(Chars):-run([state(a, [transition(1, a), transition(2,a),transition(0,b),transition(1,b)], no),
+              state(b, [transition(1,b), transition(2,b), transition(epsilon, c),transition(epsilon, d)], no),
+              state(c, [], no),
+              state(d, [transition(0,c),transition(3,c), transition(3, e)],yes),
+              state(e, [transition(2, c), transition(epsilon, a), transition(1,d)],yes)],
+              Chars).
+
+demo5(Chars):-run([state(a, [transition(1, b), transition(epsilon, c)],no),
+              state(b, [transition(2,c)], no),
+              state(c, [], yes)],
+              Chars).
+
+demo6(Chars):-run([state(a, [transition(1, a), transition(epsilon, b)], no),
+              state(b, [transition(1, c), transition(epsilon,c)], no),
+              state(c, [transition(epsilon, d)], no),
+              state(d, [transition(2,e)], no),
+              state(e, [transition(1,c), transition(1,a)], yes)],
+              Chars).
+
+demo7(Chars):-run([state(a, [transition(1, b), transition(2,a),transition(3,a),transition(1,c),transition(epsilon,c)], no),
+              state(b, [transition(1,d), transition(2,f), transition(1, f)], no),
+              state(c, [transition(0, a), transition(2,c), transition(3,c), transition(epsilon,e)], no),
+              state(d, [transition(epsilon,f),transition(0,d)],no),
+              state(e, [], no),
+              state(f,[transition(0, a), transition(1,e)], yes)],
+              Chars).
+
+demo8(Chars):-run([state(a, [transition(4,c), transition(4,b), transition(5,b), transition(6,d)],no),
+              state(b, [transition(6,c)], no),
+              state(c, [transition(epsilon,e)], yes),
+              state(d, [transition(6,f)], no),
+              state(e, [transition(5,c), transition(3,e)],no),
+              state(f, [transition(5,f)], yes)],
+              Chars).
+
+*/
